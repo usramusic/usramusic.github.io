@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+        }
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 2rem;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+        }
+        main {
+            max-width: 900px;
+            margin: 2rem auto;
+            background: #fff;
+            /* color: #333; */
+            padding: 2rem;
+            border-radius: 8px;
+            /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); */
+        }
+        section {
+            margin-bottom: 2rem;
+        }
+        section h2 {
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        .sample {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .sample audio {
+            margin-left: 1rem;
+        }
+
+        /* Custom player style */
+        #section1 midi-player {
+          display: block;
+          width: inherit;
+          margin: 4px;
+          margin-bottom: 0;
+        }
+        #section1 midi-player::part(control-panel) {
+          background: #f5f5f5;
+          border: 2px solid #000;
+          border-radius: 10px 10px 0 0;
+        }
+        #section1 midi-player::part(play-button) {
+          color: #fff;
+          border: 2px solid currentColor;
+          background-color: #7b7d7d;
+          border-radius: 20px;
+          transition: all 0.2s;
+        }
+        #section1 midi-player::part(play-button):hover {
+          color: #fff;
+          background-color: #1487e5;
+          border-radius: 10px;
+        }
+        #section1 midi-player::part(time) {
+          font-family: monospace;
+        }
+
+        /* Custom visualizer style */
+        #section1 midi-visualizer .piano-roll-visualizer {
+          background: #fff;
+          border: 2px solid black;
+          border-top: none;
+          border-radius: 0 0 10px 10px;
+          margin: 4px;
+          margin-top: 0;
+          overflow: auto;
+        }
+        #section1 midi-visualizer svg rect.note {
+          opacity: 0.6;
+          stroke-width: 2;
+        }
+        #section1 midi-visualizer svg rect.note[data-instrument="0"] {
+          fill: rgb(98, 97, 97);
+          stroke: rgb(68, 66, 66);
+        }
+        #section1 midi-visualizer svg rect.note[data-instrument="2"] {
+          fill: #2ee;
+          stroke: #055;
+        }
+        #section1 midi-visualizer svg rect.note[data-is-drum="true"] {
+          fill: #888;
+          stroke: #888;
+        }
+        #section1 midi-visualizer svg rect.note.active {
+          opacity: 0.9;
+          stroke: #000;
+        }
+        
+        /* Custom player style */
+        #section2 midi-player {
+          display: block;
+          width: inherit;
+          margin: 4px;
+          margin-bottom: 0;
+        }
+        #section2 midi-player::part(control-panel) {
+          background: #f5f5f5;
+          border: 2px solid #000;
+          border-radius: 10px 10px 0 0;
+        }
+        #section2 midi-player::part(play-button) {
+          color: #fff;
+          border: 2px solid currentColor;
+          background-color: #7b7d7d;
+          border-radius: 20px;
+          transition: all 0.2s;
+        }
+        #section2 midi-player::part(play-button):hover {
+          color: #fff;
+          background-color: #1487e5;
+          border-radius: 10px;
+        }
+        #section2 midi-player::part(time) {
+          font-family: monospace;
+        }
+
+        /* Custom visualizer style */
+        #section2 midi-visualizer .piano-roll-visualizer {
+          background: #fff;
+          border: 2px solid black;
+          border-top: none;
+          border-radius: 0 0 10px 10px;
+          margin: 4px;
+          margin-top: 0;
+          overflow: auto;
+        }
+        #section2 midi-visualizer svg rect.note {
+          opacity: 0.6;
+          stroke-width: 2;
+        }
+        #section2 midi-visualizer svg rect.note[data-instrument="0"] {
+          fill: rgb(98, 97, 97);
+          stroke: rgb(68, 66, 66);
+        }
+        #section2 midi-visualizer svg rect.note[data-instrument="2"] {
+          fill: #2ee;
+          stroke: #055;
+        }
+        #section2 midi-visualizer svg rect.note[data-is-drum="true"] {
+          fill: #888;
+          stroke: #888;
+        }
+        #section2 midi-visualizer svg rect.note.active {
+          opacity: 0.9;
+          stroke: #000;
+        }
+        /* Custom player style */
+        #section3 midi-player {
+          display: block;
+          width: inherit;
+          margin: 4px;
+          margin-bottom: 0;
+        }
+        #section3 midi-player::part(control-panel) {
+          background: #f5f5f5;
+          border: 2px solid #000;
+          border-radius: 10px 10px 0 0;
+        }
+        #section3 midi-player::part(play-button) {
+          color: #fff;
+          border: 2px solid currentColor;
+          background-color: #7b7d7d;
+          border-radius: 20px;
+          transition: all 0.2s;
+        }
+        #section3 midi-player::part(play-button):hover {
+          color: #fff;
+          background-color: #1487e5;
+          border-radius: 10px;
+        }
+        #section3 midi-player::part(time) {
+          font-family: monospace;
+        }
+
+        /* Custom visualizer style */
+        #section3 midi-visualizer .piano-roll-visualizer {
+          background: #fff;
+          border: 2px solid black;
+          border-top: none;
+          border-radius: 0 0 10px 10px;
+          margin: 4px;
+          margin-top: 0;
+          overflow: auto;
+        }
+        #section3 midi-visualizer svg rect.note {
+          opacity: 0.6;
+          stroke-width: 2;
+        }
+        #section3 midi-visualizer svg rect.note[data-instrument="0"] {
+          fill: rgb(98, 97, 97);
+          stroke: rgb(68, 66, 66);
+        }
+        #section3 midi-visualizer svg rect.note[data-instrument="2"] {
+          fill: #2ee;
+          stroke: #055;
+        }
+        #section3 midi-visualizer svg rect.note[data-is-drum="true"] {
+          fill: #888;
+          stroke: #888;
+        }
+        #section3 midi-visualizer svg rect.note.active {
+          opacity: 0.9;
+          stroke: #000;
+        }
+
+        /* Custom player style */
+        #section4 midi-player {
+          display: block;
+          width: inherit;
+          margin: 4px;
+          margin-bottom: 0;
+        }
+        #section4 midi-player::part(control-panel) {
+          background: #f5f5f5;
+          border: 2px solid #000;
+          border-radius: 10px 10px 0 0;
+        }
+        #section4 midi-player::part(play-button) {
+          color: #fff;
+          border: 2px solid currentColor;
+          background-color: #7b7d7d;
+          border-radius: 20px;
+          transition: all 0.2s;
+        }
+        #section4 midi-player::part(play-button):hover {
+          color: #fff;
+          background-color: #1487e5;
+          border-radius: 10px;
+        }
+        #section4 midi-player::part(time) {
+          font-family: monospace;
+        }
+
+        /* Custom visualizer style */
+        #section4 midi-visualizer .piano-roll-visualizer {
+          background: #fff;
+          border: 2px solid black;
+          border-top: none;
+          border-radius: 0 0 10px 10px;
+          margin: 4px;
+          margin-top: 0;
+          overflow: auto;
+        }
+        #section4 midi-visualizer svg rect.note {
+          opacity: 0.6;
+          stroke-width: 2;
+        }
+        #section4 midi-visualizer svg rect.note[data-instrument="0"] {
+          fill: rgb(98, 97, 97);
+          stroke: rgb(68, 66, 66);
+        }
+        #section4 midi-visualizer svg rect.note[data-instrument="2"] {
+          fill: #2ee;
+          stroke: #055;
+        }
+        #section4 midi-visualizer svg rect.note[data-is-drum="true"] {
+          fill: #888;
+          stroke: #888;
+        }
+        #section4 midi-visualizer svg rect.note.active {
+          opacity: 0.9;
+          stroke: #000;
+        }
+        
+
+        /* footer {
+            text-align: center;
+            padding: 1rem;
+            background-color: #333;
+            color: #fff;
+            margin-top: 2rem;
+        } */
+         
+    </style>
+
+</head>
+<body>
+    <header>
+        <h1>A DIFFUSION MODEL WITH SELF-REPRESENTATION ALIGNMENT FOR</h1>
+        <h1>VIDEO-TO-MUSIC GENERATION</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Overview</h2>
+            <p>
+                This is the demo page of our work: A Diffusion Model with Self-Representation Alignment for Video-to-Music Generation. Detailed demonstrations will be provided soon.
+            </p>
+            </p>    
+                We propose a novel diffusion U-Net architecture enhanced by explicitly aligning the weaker representation from the earlier layer conditioned on higher noise with the better representation from the later layer conditioned on lower noise during training, which we use for the challenging multimodal task of video background music generation. Our diffusion U-Net Self-Representation Alignment (U-SRA) method employs an alignment loss to effectively guide our diffusion model to learn good internal representations, thereby enabling it to produce higher-quality symbolic music conditioned on video features. We employ a cross-attention mechanism to synchronize music with video segments. Experiments on a benchmark video-music dataset demonstrate that the proposed U-SRA approach for video background music generation surpasses the state-of-the-art across key evaluation metrics, including retrieval-based video–music alignment and overall music quality.
+                
+            </p>
+        </section>
+
+<!--        <section>-->
+<!--          <h2>Test Set Samples</h2>-->
+<!--      -->
+<!--          <div class="sample">-->
+<!--              &lt;!&ndash; <p>Sample 1:</p> &ndash;&gt;-->
+<!--              <audio controls>-->
+<!--                  <source src="./static/midi/028_cond_236.npz_prmat2c_segment_14.mp3" type="audio/mpeg">-->
+<!--                  Your browser does not support the audio element.-->
+<!--              </audio>-->
+<!--          </div>-->
+<!--          <div class="sample">-->
+<!--            <img src="./static/images/028_cond_236.npz_prmat2c_segment_14.png" alt="Sample 1 Image" width="500">-->
+<!--          </div>-->
+<!--      -->
+<!--          <div class="sample">-->
+<!--&lt;!&ndash;               <p>Sample 2:</p> &ndash;&gt;-->
+<!--              <audio controls>-->
+<!--                  <source src="./static/midi/111_cond_650.npz_prmat2c_segment_2.mp3" type="audio/mpeg">-->
+<!--                  Your browser does not support the audio element.-->
+<!--              </audio>-->
+<!--            </div>-->
+<!--            <div class="sample">-->
+<!--              <img src="./static/images/111_cond_650.npz_prmat2c_segment_2.png" alt="Sample 2 Image" width="500">-->
+<!--          </div>-->
+<!--      -->
+<!--          -->
+<!--      </section>-->
+
+<!--        <section>-->
+<!--          <h2>Polyffusion</h2>-->
+<!--      -->
+<!--          <div class="sample">-->
+<!--              &lt;!&ndash; <p>Sample 1:</p> &ndash;&gt;-->
+<!--              <audio controls>-->
+<!--                  <source src="./static/midi/028_sdf_chd8bar[scale=5.0]_24-11-08_090745_segment_14.mp3" type="audio/mpeg">-->
+<!--                  Your browser does not support the audio element.-->
+<!--              </audio>-->
+<!--          </div>-->
+<!--          <div class="sample">-->
+<!--            <img src="./static/images/028_sdf_chd8bar[scale=5.0]_24-11-08_090745_segment_14.png" alt="Sample 1 Image" width="500">-->
+<!--          </div>-->
+<!--      -->
+<!--          <div class="sample">-->
+<!--&lt;!&ndash;               <p>Sample 2:</p> &ndash;&gt;-->
+<!--              <audio controls>-->
+<!--                  <source src="./static/midi/111_sdf_chd8bar[scale=5.0]_24-11-08_091946_segment_2.mp3" type="audio/mpeg">-->
+<!--                  Your browser does not support the audio element.-->
+<!--              </audio>-->
+<!--            </div>-->
+<!--            <div class="sample">-->
+<!--              <img src="./static/images/111_sdf_chd8bar[scale=5.0]_24-11-08_091946_segment_2.png" alt="Sample 2 Image" width="500">-->
+<!--          </div>-->
+<!--      -->
+<!--          -->
+<!--      </section>-->
+
+<!--      <section>-->
+<!--        <h2>Proffusion-W</h2>-->
+<!--    -->
+<!--        <div class="sample">-->
+<!--            &lt;!&ndash; <p>Sample 1:</p> &ndash;&gt;-->
+<!--            <audio controls>-->
+<!--                <source src="./static/midi/028_W_sdf_chd8bar[scale=5.0]_24-11-22_120140_segment_14.mp3" type="audio/mpeg">-->
+<!--                Your browser does not support the audio element.-->
+<!--            </audio>-->
+<!--        </div>-->
+<!--        <div class="sample">-->
+<!--          <img src="./static/images/028_W_sdf_chd8bar[scale=5.0]_24-11-22_120140_segment_14.png" alt="Sample 1 Image" width="500">-->
+<!--        </div>-->
+
+<!--        <div class="sample">-->
+<!--&lt;!&ndash;               <p>Sample 2:</p> &ndash;&gt;-->
+<!--              <audio controls>-->
+<!--                  <source src="./static/midi/111_W_sdf_chd8bar[scale=5.0]_24-11-22_121553_segment_2.mp3" type="audio/mpeg">-->
+<!--                  Your browser does not support the audio element.-->
+<!--              </audio>-->
+<!--              </div>-->
+<!--            <div class="sample">-->
+<!--              <img src="./static/images/111_W_sdf_chd8bar[scale=5.0]_24-11-22_121553_segment_2.png" alt="Sample 2 Image" width="500">-->
+<!--          </div>-->
+<!--    -->
+<!--    </section>-->
+
+<!--    <section>-->
+<!--      <h2>Proffusion-M</h2>-->
+<!--  -->
+<!--      <div class="sample">-->
+<!--          &lt;!&ndash; <p>Sample 1:</p> &ndash;&gt;-->
+<!--          <audio controls>-->
+<!--              <source src="./static/midi/028_M_sdf_chd8bar[scale=5.0]_24-11-08_093047_segment_14.mp3" type="audio/mpeg">-->
+<!--              Your browser does not support the audio element.-->
+<!--          </audio>-->
+<!--      </div>-->
+<!--      <div class="sample">-->
+<!--        <img src="./static/images/028_M_sdf_chd8bar[scale=5.0]_24-11-08_093047_segment_14.png" alt="Sample 1 Image" width="500">-->
+<!--      </div>-->
+<!--      <div class="sample">-->
+<!--&lt;!&ndash;               <p>Sample 2:</p> &ndash;&gt;-->
+<!--              <audio controls>-->
+<!--                  <source src="./static/midi/111_M_sdf_chd8bar[scale=5.0]_24-11-08_094344_segment_2.mp3" type="audio/mpeg">-->
+<!--                  Your browser does not support the audio element.-->
+<!--              </audio>-->
+<!--          </div>-->
+<!--            <div class="sample">-->
+<!--              -->
+<!--              <img src="./static/images/111_M_sdf_chd8bar[scale=5.0]_24-11-08_094344_segment_2.png" alt="Sample 2 Image" width="500">-->
+<!--          </div>-->
+
+<!--        -->
+<!--  -->
+<!--  </section>-->
+
+<!--  <section>-->
+<!--    <h2>Proffusion-WM</h2>-->
+
+<!--    <div class="sample">-->
+<!--        &lt;!&ndash; <p>Sample 1:</p> &ndash;&gt;-->
+<!--        <audio controls>-->
+<!--            <source src="./static/midi/028_WM_sdf_chd8bar[scale=5.0]_24-12-03_121452_segment_14.mp3" type="audio/mpeg">-->
+<!--            Your browser does not support the audio element.-->
+<!--        </audio>-->
+<!--    </div>-->
+<!--    <div class="sample">-->
+<!--      <img src="./static/images/028_WM_sdf_chd8bar[scale=5.0]_24-12-03_121452_segment_14.png" alt="Sample 1 Image" width="500">-->
+<!--    </div>-->
+
+<!--    <div class="sample">-->
+<!--&lt;!&ndash;               <p>Sample 2:</p> &ndash;&gt;-->
+<!--              <audio controls>-->
+<!--                  <source src="./static/midi/111_WM_sdf_chd8bar[scale=5.0]_24-12-03_123011_segment_2.mp3" type="audio/mpeg">-->
+<!--                  Your browser does not support the audio element.-->
+<!--              </audio>-->
+<!--        </div>-->
+<!--            <div class="sample">-->
+<!--              -->
+<!--              <img src="./static/images/111_WM_sdf_chd8bar[scale=5.0]_24-12-03_123011_segment_2.png" alt="Sample 2 Image" width="500">-->
+<!--          </div>-->
+
+<!--</section>-->
+
+<!--         <section id="section1">
+          <h2>Polyffusion</h2>
+          <midi-player
+            src="./static/midi/028_sdf_chd8bar[scale=5.0]_24-11-08_090745_segment_14.mid"
+            sound-font visualizer="#section1 midi-visualizer">
+          </midi-player>
+          <midi-visualizer
+            src="./static/midi/028_sdf_chd8bar[scale=5.0]_24-11-08_090745_segment_14.mid">
+          </midi-visualizer>
+          </section>
+
+        <section id="section2">
+          <h2>Proffusion-W</h2>
+          <midi-player
+            src="./static/midi/028_W_sdf_chd8bar[scale=5.0]_24-11-22_120140_segment_14.mid"
+            sound-font visualizer="#section2 midi-visualizer">
+          </midi-player>
+          <midi-visualizer
+            src="./static/midi/028_W_sdf_chd8bar[scale=5.0]_24-11-22_120140_segment_14.mid">
+          </midi-visualizer>
+          </section>
+
+        <section id="section3">
+          <h2>Proffusion-M</h2>
+          <midi-player
+            src="./static/midi/028_M_sdf_chd8bar[scale=5.0]_24-11-08_093047_segment_14.mid"
+            sound-font visualizer="#section3 midi-visualizer">
+          </midi-player>
+          <midi-visualizer
+            src="./static/midi/028_M_sdf_chd8bar[scale=5.0]_24-11-08_093047_segment_14.mid">
+          </midi-visualizer>
+          </section>
+
+          <section id="section4">
+            <h2>Proffusion-WM</h2>
+            <midi-player
+              src="./static/midi/028_WM_sdf_chd8bar[scale=5.0]_24-12-03_121452_segment_14.mid"
+              sound-font visualizer="#section4 midi-visualizer">
+            </midi-player>
+            <midi-visualizer
+              src="./static/midi/028_WM_sdf_chd8bar[scale=5.0]_24-12-03_121452_segment_14.mid">
+            </midi-visualizer>
+            </section>
+          
+          <script src="https://cdn.jsdelivr.net/combine/npm/tone@14.7.58,npm/@magenta/music@1.23.1/es6/core.js,npm/focus-visible@5,npm/html-midi-player@1.5.0"></script>
+           -->
+        
+
+        <!-- <section>
+            <h2>Features</h2>
+            <ul>
+                <li>Unconditional music generation</li>
+                <li>Melody generation based on accompaniment</li>
+                <li>Accompaniment creation for melodies</li>
+                <li>Inpainting of arbitrary music segments</li>
+                <li>Control with chord and texture conditions</li>
+            </ul>
+        </section> -->
+
+        <!-- <section>
+            <h2>How It Works</h2>
+            <p>
+                Our model processes pianoroll representations of music using a diffusion-based approach. 
+                By incorporating advanced techniques, we achieve controllable and high-quality music generation.
+            </p>
+        </section> -->
+    </main>
+    <!-- <footer>
+        <p>&copy; 2025 Your Project Name. All rights reserved.</p>
+    </footer> -->
+</body>
+</html>
